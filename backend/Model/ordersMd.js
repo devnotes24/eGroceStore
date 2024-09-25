@@ -2,15 +2,14 @@ const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
 
 const itemSchema = new mongoose.Schema({
-  item: { type: String},
-  quantity: { type: String },
+  quantity: { type: Number },
   price: { type: Number },
   category: {type: String},
   howMany : {type:Number},
   imgUrl : {type:String},
   name :{type:String},
   unit: {type:String},
-  
+  _id:{type:String}
 });
 
 const orderSchema = new mongoose.Schema({

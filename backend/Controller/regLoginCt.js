@@ -93,6 +93,7 @@ exports.updateUser = async (req, res) => {
     if (cart) user.cart = cart;
     if(orderId) user.order.push(orderId);
     // Save the updated user
+    
     await user.save();
 
     res.json({ success: 'User information updated successfully', user });

@@ -1,12 +1,17 @@
 /* eslint-disable camelcase */
 const express = require('express');
 const createOrderModel = require('../Model/ordersMd');
+const createUserModel = require('../Model/regLoginMd');
+
 
 exports.createOrder = async (req, res) => {
   const Order = createOrderModel(req.globalDB);
-  const { userId, userName, contactNo, userAddress, amount, orderDate, deliveryDate, status, paymentType, items } = req.body;
+  const User = createUserModel(req.globalDB);
+
+  const { userId, userName, contactNo, userAddress, amount, orderDate, deliveryDate, status, paymentType, items ,email} = req.body;
 
   try {
+    let user = await User.findOne({email});
     const order = new Order({
       userId,
       userName,
@@ -20,6 +25,9 @@ exports.createOrder = async (req, res) => {
       items,
     });
     await order.save();
+    user.order.push(String(order._id));
+    await user.save();
+    // console.log(order._id);
     res.status(201).json({ success: 'Order created successfully', order });
   } catch (error) {
     res.status(400).json({ error: 'Failed to create order. Please check the data.' });
