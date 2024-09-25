@@ -26,6 +26,7 @@ exports.createOrder = async (req, res) => {
     });
     await order.save();
     user.order.push(String(order._id));
+    user.cart=[]
     await user.save();
     // console.log(order._id);
     res.status(201).json({ success: 'Order created successfully', order });
